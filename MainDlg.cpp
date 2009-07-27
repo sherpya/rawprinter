@@ -91,12 +91,6 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 
     wchar_t value[MAX_ITEM_VALUE];
     HTREEITEM selected = m_tree->GetSelectedItem();
-    if (!m_tree->GetParentItem(selected))
-    {
-        MessageBox(L"You need to select a printer", L"Error", MB_OK);
-        return 1;
-    }
-
     m_tree->GetItemText(selected, value, MAX_ITEM_VALUE - 1);
     MessageBox(value, L"Selected", MB_OK);
 	return 0;

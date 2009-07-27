@@ -39,6 +39,7 @@ public:
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
+    BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
     BOOL PopulateTreeView(void);
 	void CloseDialog(int nVal);
 

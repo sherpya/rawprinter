@@ -5,54 +5,66 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::PopulateTreeView(void)
+BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 {
-    HTREEITEM root;
-    LPSERVER_INFO_101 sInfo = NULL;
+    DWORD dwResult, dwResultEnum;
+    HANDLE hEnum;
+    DWORD cbBuffer = 16384;
+    DWORD cEntries = -1;        // enumerate all possible entries
+    LPNETRESOURCE lpnrLocal;
+    DWORD i;
 
-    DWORD i, r, total, resume = 0;
-    if (::NetServerEnum(NULL,
-        101,
-        (LPBYTE *) &sInfo,
-        MAX_PREFERRED_LENGTH,
-        &r,
-        &total,
-        SV_TYPE_PRINTQ_SERVER,
-        NULL,
-        &resume) != NERR_Success)
+    dwResult = ::WNetOpenEnum(RESOURCE_GLOBALNET, // all network resources
+        RESOURCETYPE_PRINT,
+        0,  // enumerate all resources
+        lpnr,
+        &hEnum);
+
+    if (dwResult != NO_ERROR)
         return FALSE;
 
-    for (i = 0; i < total; i++)
+    lpnrLocal = (LPNETRESOURCE) new byte[cbBuffer];
+    if (lpnrLocal == NULL)
+        return FALSE;
+
+    do
     {
-        PSHARE_INFO_502 BufPtr, p;
-        NET_API_STATUS res;
-        DWORD er = 0, tr = 0, j;
-        root = NULL;
-        resume = 0;
-        do
+        ZeroMemory(lpnrLocal, cbBuffer);
+        dwResultEnum = WNetEnumResource(hEnum,  // resource handle
+            &cEntries,      // defined locally as -1
+            lpnrLocal,      // LPNETRESOURCE
+            &cbBuffer);     // buffer size
+
+        if (dwResultEnum == NO_ERROR)
         {
-            res = ::NetShareEnum(sInfo[i].sv101_name, 502, (LPBYTE *) &BufPtr, -1, &er, &tr, &resume);
-            if ((res != ERROR_SUCCESS) && (res != ERROR_MORE_DATA)) break;
-
-            p = BufPtr;
-            for (j = 1; j <= er; j++, p++)
+            for (i = 0; i < cEntries; i++)
             {
-                if (!::IsValidSecurityDescriptor(p->shi502_security_descriptor))
-                    continue;
-
-                if (p->shi502_type == STYPE_PRINTQ)
-                {
-                    if (!root)
-                        root = m_tree->InsertItem(sInfo[i].sv101_name, 0, 0, NULL, NULL);
-                    m_tree->InsertItem(p->shi502_netname, 1, 1, root, NULL);
-                }
+                //if (RESOURCEUSAGE_CONTAINER == (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER))
+                if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
+                    EnumeratePrinters(&lpnrLocal[i], parent);
+                else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
+                    m_tree->InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, NULL, NULL);
             }
-            ::NetApiBufferFree(BufPtr);
-        } while (res == ERROR_MORE_DATA);
-
-        if (root) m_tree->Expand(root);
+        }
+        else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
+            break;
     }
-    if (sInfo) ::NetApiBufferFree(sInfo);
+    while (dwResultEnum != ERROR_NO_MORE_ITEMS);
+
+    delete lpnrLocal;
+
+    dwResult = ::WNetCloseEnum(hEnum);
+
+    if (dwResult != NO_ERROR)
+        return FALSE;
+
+    return TRUE;
+}
+
+BOOL CMainDlg::PopulateTreeView(void)
+{
+    LPNETRESOURCE lpnr = NULL;
+    EnumeratePrinters(NULL, NULL);
     return TRUE;
 }
 
