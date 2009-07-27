@@ -15,7 +15,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     DWORD i;
 
     dwResult = ::WNetOpenEnum(RESOURCE_GLOBALNET, // all network resources
-        RESOURCETYPE_PRINT,
+        RESOURCETYPE_ANY,
         0,  // enumerate all resources
         lpnr,
         &hEnum);
@@ -27,9 +27,12 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     if (lpnrLocal == NULL)
         return FALSE;
 
+    //if (!parent)
+    //    parent = m_tree->InsertItem(L"ZZZ", NULL, NULL);
+
     do
     {
-        ZeroMemory(lpnrLocal, cbBuffer);
+        memset(lpnrLocal, 0, cbBuffer);
         dwResultEnum = WNetEnumResource(hEnum,  // resource handle
             &cEntries,      // defined locally as -1
             lpnrLocal,      // LPNETRESOURCE
@@ -43,7 +46,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                     EnumeratePrinters(&lpnrLocal[i], parent);
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
-                    m_tree->InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, NULL, NULL);
+                    m_tree->InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, parent, NULL);
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
