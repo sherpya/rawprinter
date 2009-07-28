@@ -13,9 +13,6 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     LPNETRESOURCE lpnrLocal;
     DWORD i;
 
-    if (m_eAbort.GetValue())
-        return FALSE;
-
     dwResult = ::WNetOpenEnum(RESOURCE_GLOBALNET, // all network resources
         RESOURCETYPE_ANY,
         0,  // enumerate all resources
@@ -41,9 +38,6 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
         {
             for (i = 0; i < cEntries; i++)
             {
-                if (!m_eAbort.TryLock())
-                    return FALSE;
-
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                 {
                     WTL::CString message(_T("Scanning "));
@@ -58,18 +52,13 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
                     }
                     message += lpnrLocal[i].lpRemoteName;
                     m_status.SetText(0, message);
-                    if (!EnumeratePrinters(&lpnrLocal[i], parent) && m_eAbort.GetValue())
-                    {
-                        m_eAbort.Unlock();
-                        return FALSE;
-                    }
+                    EnumeratePrinters(&lpnrLocal[i], parent);
                 }
-                else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
+                //else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
                 {
                     m_tree.InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, parent, NULL);
                     m_tree.Expand(parent);
                 }
-                m_eAbort.Unlock();
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
@@ -81,10 +70,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 
     dwResult = ::WNetCloseEnum(hEnum);
 
-    if (dwResult != NO_ERROR)
-        return FALSE;
-
-    return TRUE;
+    return FALSE;
 }
 
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
@@ -92,9 +78,7 @@ DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
     HTREEITEM network = pThis->m_tree.InsertItem(_T("Network"), 0, 0, NULL, NULL);
     pThis->EnumeratePrinters(NULL, network);
-
-    if (!pThis->m_eAbort.GetValue())
-        pThis->m_status.SetText(0, _T("Please select the printer"));
+    pThis->m_status.SetText(0, _T("Please select the printer"));
     return 0;
 }
 

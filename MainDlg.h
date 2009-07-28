@@ -4,28 +4,6 @@
 
 #pragma once
 
-class CSyncBool : public CComAutoCriticalSection
-{
-public:
-    BOOL GetValue(void) { return m_Value; };
-    void SetValue(BOOL value)
-    {
-        Lock();
-        m_Value = value;
-        Unlock();
-    }
-    BOOL TryLock(void)
-    {
-        if (GetValue() == TRUE)
-            return FALSE;
-        Lock();
-        return TRUE;
-    }
-private:
-    BOOL m_Value;
-};
-
-
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -64,7 +42,6 @@ public:
 
 	void CloseDialog(int nVal);
     BOOL EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
-    CSyncBool m_eAbort;
     HANDLE m_thEnum;
 
 private:
