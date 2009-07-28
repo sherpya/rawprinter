@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include <vector>
+
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -30,8 +32,6 @@ public:
 //	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 //	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
-    static BOOL CMainDlg::RawPrint(LPWSTR fileName, LPWSTR printer);
-
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
@@ -39,11 +39,15 @@ public:
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
-    BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
-    BOOL PopulateTreeView(void);
+    static BOOL RawPrint(LPWSTR fileName, LPWSTR printer);
+    static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
+
 	void CloseDialog(int nVal);
+    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &printers);
+    BOOL m_eAbort;
+    HANDLE m_thEnum;
 
 private:
-    CTreeViewCtrl *m_tree;
-
+    CTreeViewCtrl m_tree;
+    CStatusBarCtrl m_status;
 };

@@ -5,7 +5,7 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
+BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &printers)
 {
     DWORD dwResult, dwResultEnum;
     HANDLE hEnum;
@@ -13,6 +13,9 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     DWORD cEntries = -1;        // enumerate all possible entries
     LPNETRESOURCE lpnrLocal;
     DWORD i;
+
+    if (m_eAbort)
+        return FALSE;
 
     dwResult = ::WNetOpenEnum(RESOURCE_GLOBALNET, // all network resources
         RESOURCETYPE_ANY,
@@ -27,9 +30,6 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     if (lpnrLocal == NULL)
         return FALSE;
 
-    //if (!parent)
-    //    parent = m_tree->InsertItem(L"ZZZ", NULL, NULL);
-
     do
     {
         memset(lpnrLocal, 0, cbBuffer);
@@ -42,11 +42,13 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
         {
             for (i = 0; i < cEntries; i++)
             {
-                //if (RESOURCEUSAGE_CONTAINER == (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER))
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
-                    EnumeratePrinters(&lpnrLocal[i], parent);
+                {
+                    if (!EnumeratePrinters(&lpnrLocal[i], printers) && m_eAbort)
+                        return FALSE;
+                }
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
-                    m_tree->InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, parent, NULL);
+                    printers.push_back(std::wstring(lpnrLocal[i].lpRemoteName));
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
@@ -64,11 +66,20 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
     return TRUE;
 }
 
-BOOL CMainDlg::PopulateTreeView(void)
+DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
-    LPNETRESOURCE lpnr = NULL;
-    EnumeratePrinters(NULL, NULL);
-    return TRUE;
+    CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
+    std::vector<std::wstring> printers;
+    pThis->EnumeratePrinters(NULL, printers);
+
+    if (pThis->m_eAbort)
+        return -1;
+
+    for (unsigned int i = 0; i < printers.size(); i++)
+        pThis->m_tree.InsertItem(printers[i].c_str(), 1, 1, NULL, NULL);
+    pThis->m_status.SetText(0, _T("Please select the printer"));
+
+    return 0;
 }
 
 static BOOL RawPrint(LPWSTR fileName, LPWSTR printer)

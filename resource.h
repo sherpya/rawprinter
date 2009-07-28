@@ -11,3 +11,4 @@
 #define IDC_BUTTON_OK                           1006
 #define IDC_BUTTON_TEST                         1009
 #define IDC_BUTTON_CANCEL                       1010
+#define IDC_STATUSBAR                           1012

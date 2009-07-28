@@ -18,6 +18,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 	if(dlgMain.Create(NULL) == NULL)
 	{
+        DWORD err = GetLastError();
 		ATLTRACE(_T("Main dialog creation failed!\n"));
 		return 0;
 	}
@@ -25,6 +26,10 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 	dlgMain.ShowWindow(nCmdShow);
 
 	int nRet = theLoop.Run();
+
+    dlgMain.m_eAbort = TRUE;
+    ATLTRACE(_T("Waiting for enum thread"));
+    ::WaitForSingleObject(dlgMain.m_thEnum, INFINITE);
 
 	_Module.RemoveMessageLoop();
 	return nRet;
