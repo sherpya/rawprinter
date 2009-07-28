@@ -41,7 +41,7 @@ public:
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
 	void CloseDialog(int nVal);
-    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &printers);
+    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> &printers);
     BOOL m_eAbort;
     HANDLE m_thEnum;
 

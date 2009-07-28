@@ -4,7 +4,7 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &printers)
+BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> &printers)
 {
     DWORD dwResult, dwResultEnum;
     HANDLE hEnum;
@@ -43,24 +43,24 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &prin
             {
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                 {
-                    CString message(_T("Scanning "));
+                    WTL::CString message(_T("Scanning "));
                     switch (lpnrLocal[i].dwDisplayType)
                     {
                         case RESOURCEDISPLAYTYPE_DOMAIN:
-                            message.Append(_T("Domain / Group "));
+                            message += _T("Domain / Group ");
                             break;
                         case RESOURCEDISPLAYTYPE_SERVER:
-                            message.Append(_T("Server "));
+                            message += _T("Server ");
                             break;
                     }
-                    message.Append(lpnrLocal[i].lpRemoteName);
+                    message += lpnrLocal[i].lpRemoteName;
                     if (!m_eAbort)
                         m_status.SetText(0, message);
                     if (!EnumeratePrinters(&lpnrLocal[i], printers) && m_eAbort)
                         return FALSE;
                 }
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
-                    printers.Add(CString(lpnrLocal[i].lpRemoteName));
+                    printers.Add(WTL::CString(lpnrLocal[i].lpRemoteName));
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
@@ -81,7 +81,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &prin
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
-    CSimpleArray<CString> printers;
+    CSimpleArray<WTL::CString> printers;
     pThis->EnumeratePrinters(NULL, printers);
 
     if (pThis->m_eAbort)
