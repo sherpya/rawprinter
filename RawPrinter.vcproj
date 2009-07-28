@@ -195,7 +195,7 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath=".\MainDlg.cpp"
+				RelativePath=".\Dialogs.cpp"
 				>
 			</File>
 			<File
@@ -232,7 +232,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath=".\MainDlg.h"
+				RelativePath=".\Dialogs.h"
 				>
 			</File>
 			<File

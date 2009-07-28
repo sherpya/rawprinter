@@ -1,10 +1,6 @@
-// MainDlg.cpp : implementation of the CMainDlg class
-//
-/////////////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "resource.h"
-#include "MainDlg.h"
+#include "Dialogs.h"
 
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
