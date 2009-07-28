@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MainDlg.h"
-#include "AboutDlg.h"
 
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
@@ -78,8 +77,8 @@ LRESULT CMainDlg::OnSysCommand(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, 
             break;
         case IDM_ABOUT:
             {
-            	CAboutDlg dlg;
-	            dlg.DoModal();
+                CSimpleDialog<IDD_ABOUT, TRUE> about;
+                about.DoModal();
                 break;
             }
         default:

@@ -41,7 +41,8 @@ public:
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
 	void CloseDialog(int nVal);
-    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
+    BOOL EnumerateLocalPrinters(HTREEITEM parent);
+    BOOL EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
     BOOL TestPrinter(LPTSTR printer);
     HANDLE m_thEnum;
 

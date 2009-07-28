@@ -14,6 +14,8 @@
 #define _WIN32_IE	0x0501
 #define _RICHEDIT_VER	0x0200
 
+#define IDM_ABOUT   400
+
 #include <atlbase.h>
 #include <atlapp.h>
 #include <atlmisc.h>

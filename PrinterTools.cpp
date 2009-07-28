@@ -4,7 +4,21 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
+BOOL CMainDlg::EnumerateLocalPrinters(HTREEITEM parent)
+{
+    PRINTER_INFO_2 *pInfo;
+    DWORD need, ret, i;
+    EnumPrinters(PRINTER_ENUM_LOCAL, NULL, 2, NULL, 0, &need, &ret);
+    pInfo = (PRINTER_INFO_2 *) new BYTE[need];
+    EnumPrinters(PRINTER_ENUM_LOCAL, NULL, 2, (LPBYTE) pInfo, need, &need, &ret);
+    for (i = 0; i < ret; i++)
+        m_tree.InsertItem(pInfo[i].pPrinterName, 1, 1, parent, NULL);
+    delete pInfo;
+    m_tree.Expand(parent);
+    return TRUE;
+}
+
+BOOL CMainDlg::EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 {
     DWORD dwResult, dwResultEnum;
     HANDLE hEnum;
@@ -52,7 +66,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
                     }
                     message += lpnrLocal[i].lpRemoteName;
                     m_status.SetText(0, message);
-                    EnumeratePrinters(&lpnrLocal[i], parent);
+                    EnumerateNetworkPrinters(&lpnrLocal[i], parent);
                 }
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
                 {
@@ -76,8 +90,12 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
+    HTREEITEM local = pThis->m_tree.InsertItem(_T("Local"), 0, 0, NULL, NULL);
+    pThis->EnumerateLocalPrinters(local);
+
     HTREEITEM network = pThis->m_tree.InsertItem(_T("Network"), 0, 0, NULL, NULL);
-    pThis->EnumeratePrinters(NULL, network);
+    pThis->EnumerateNetworkPrinters(NULL, network);
+
     pThis->m_status.SetText(0, _T("Please select the printer"));
     return 0;
 }
@@ -86,11 +104,31 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 {
     HANDLE p;
     PRINTER_INFO_2 *pInfo;
-    DWORD need;
-    ::OpenPrinter(printer, &p, NULL);
+    DWORD need = 0;
+
+    if (!::OpenPrinter(printer, &p, NULL))
+        return FALSE;
+
     ::GetPrinter(p, 2, NULL, 0, &need);
+
+    if (!need)
+        return FALSE;
+
     pInfo = (PRINTER_INFO_2 *) new BYTE[need];
+
     ::GetPrinter(p, 2, (LPBYTE) pInfo, need, &need);
+
+    //CDialogImpl<CSimpleDialog> pdlg;
+    //CSimpleDialog<IDD_PRINTER, TRUE> pdlg;
+    //pdlg.Create(NULL);
+    //HWND z = pdlg.GetDlgItem(IDC_PRINTER_INFO);
+    //CEdit edit(pdlg.GetDlgItem(IDC_PRINTER_INFO));
+    //CString pinfotxt(_T(""));
+    //pinfotxt += _T("Prova");
+    //edit.Clear();
+    //edit.AppendText(pinfotxt);
+    //pdlg.DoModal();
+
     delete pInfo;
     return TRUE;
 }
