@@ -54,7 +54,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
                     m_status.SetText(0, message);
                     EnumeratePrinters(&lpnrLocal[i], parent);
                 }
-                //else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
+                else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
                 {
                     m_tree.InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, parent, NULL);
                     m_tree.Expand(parent);
