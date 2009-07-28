@@ -118,17 +118,12 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 
     ::GetPrinter(p, 2, (LPBYTE) pInfo, need, &need);
 
-    CSimpleDialog<IDD_PRINTER, TRUE> pdlg;
-    pdlg.DoModal();
-    //pdlg.Create(NULL);
-    //HWND z = pdlg.GetDlgItem(IDC_PRINTER_INFO);
-    //CEdit edit(pdlg.GetDlgItem(IDC_PRINTER_INFO));
-    //CString pinfotxt(_T(""));
-    //pinfotxt += _T("Prova");
-    //edit.Clear();
-    //edit.AppendText(pinfotxt);
-    
+    CString pinfotext;
+    pinfotext.Empty();
+    pinfotext.Format(_T("Printer Name: %s\r\nPort: %s"), pInfo->pDriverName, pInfo->pPortName);
 
+    CPInfoDlg pDlg(pinfotext);
+    pDlg.DoModal();
     delete pInfo;
     return TRUE;
 }

@@ -50,3 +50,42 @@ private:
     WTL::CTreeViewCtrl m_tree;
     WTL::CStatusBarCtrl m_status;
 };
+
+
+class CPInfoDlg : public CDialogImpl<CPInfoDlg>
+{
+public:
+    CPInfoDlg::CPInfoDlg(CString info) : m_info(info) {};
+	enum { IDD = IDD_PRINTER };
+
+	BEGIN_MSG_MAP(CAboutDlg)
+		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
+		COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
+	END_MSG_MAP()
+
+    LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& bHandled)
+    {
+        if (wParam == SC_CLOSE)
+            SendMessage(WM_COMMAND, IDOK);
+        else
+            bHandled = FALSE;
+        return TRUE;
+    }
+	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+    {
+        CenterWindow(GetParent());
+        CEdit m_edit(GetDlgItem(IDC_PRINTER_INFO));
+        m_edit.Clear();
+        m_edit.AppendText(m_info);
+        return TRUE;
+    }
+	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+    {
+        EndDialog(wID);
+        return TRUE;
+    }
+
+private:
+    CString m_info;
+};
