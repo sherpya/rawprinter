@@ -2,10 +2,8 @@
 //
 
 #include "stdafx.h"
-
 #include "resource.h"
-
-#include "MainDlg.h"
+#include "Dialogs.h"
 
 CAppModule _Module;
 
