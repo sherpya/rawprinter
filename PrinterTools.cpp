@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "MainDlg.h"
-#include <lm.h>
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
