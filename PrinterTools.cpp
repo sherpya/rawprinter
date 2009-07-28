@@ -44,6 +44,19 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &prin
             {
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                 {
+                    CString message(_T("Scanning "));
+                    switch (lpnrLocal[i].dwDisplayType)
+                    {
+                        case RESOURCEDISPLAYTYPE_DOMAIN:
+                            message.Append(_T("Domain / Group "));
+                            break;
+                        case RESOURCEDISPLAYTYPE_SERVER:
+                            message.Append(_T("Server "));
+                            break;
+                    }
+                    message.Append(lpnrLocal[i].lpRemoteName);
+                    if (!m_eAbort)
+                        m_status.SetText(0, message);
                     if (!EnumeratePrinters(&lpnrLocal[i], printers) && m_eAbort)
                         return FALSE;
                 }
