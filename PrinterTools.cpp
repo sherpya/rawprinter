@@ -118,8 +118,8 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 
     ::GetPrinter(p, 2, (LPBYTE) pInfo, need, &need);
 
-    //CDialogImpl<CSimpleDialog> pdlg;
-    //CSimpleDialog<IDD_PRINTER, TRUE> pdlg;
+    CSimpleDialog<IDD_PRINTER, TRUE> pdlg;
+    pdlg.DoModal();
     //pdlg.Create(NULL);
     //HWND z = pdlg.GetDlgItem(IDC_PRINTER_INFO);
     //CEdit edit(pdlg.GetDlgItem(IDC_PRINTER_INFO));
@@ -127,7 +127,7 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
     //pinfotxt += _T("Prova");
     //edit.Clear();
     //edit.AppendText(pinfotxt);
-    //pdlg.DoModal();
+    
 
     delete pInfo;
     return TRUE;

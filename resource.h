@@ -8,6 +8,7 @@
 #define IDI_ICON_SERVER                         107
 #define IDD_ABOUT                               109
 #define IDD_PRINTER                             111
+#define IDB_BITMAP                              113
 #define IDC_PRINTER_IMAGE                       1001
 #define IDC_PRINTER_INFO                        1003
 #define IDC_TREE                                1003
