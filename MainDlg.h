@@ -4,8 +4,6 @@
 
 #pragma once
 
-#include <vector>
-
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
 		public CMessageFilter, public CIdleHandler
 {
@@ -43,7 +41,7 @@ public:
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
 	void CloseDialog(int nVal);
-    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &printers);
+    BOOL EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &printers);
     BOOL m_eAbort;
     HANDLE m_thEnum;
 

@@ -5,7 +5,7 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &printers)
+BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<CString> &printers)
 {
     DWORD dwResult, dwResultEnum;
     HANDLE hEnum;
@@ -48,7 +48,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &
                         return FALSE;
                 }
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
-                    printers.push_back(std::wstring(lpnrLocal[i].lpRemoteName));
+                    printers.Add(CString(lpnrLocal[i].lpRemoteName));
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
@@ -69,16 +69,16 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, std::vector<std::wstring> &
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
-    std::vector<std::wstring> printers;
+    CSimpleArray<CString> printers;
     pThis->EnumeratePrinters(NULL, printers);
 
     if (pThis->m_eAbort)
         return -1;
 
-    for (unsigned int i = 0; i < printers.size(); i++)
-        pThis->m_tree.InsertItem(printers[i].c_str(), 1, 1, NULL, NULL);
-    pThis->m_status.SetText(0, _T("Please select the printer"));
+    for (int i = 0; i < printers.GetSize(); i++)
+        pThis->m_tree.InsertItem(printers[i], 1, 1, NULL, NULL);
 
+    pThis->m_status.SetText(0, _T("Please select the printer"));
     return 0;
 }
 

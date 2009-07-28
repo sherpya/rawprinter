@@ -15,6 +15,7 @@
 #define _RICHEDIT_VER	0x0200
 
 #include <atlbase.h>
+#include <atlstr.h>
 #include <atlapp.h>
 
 extern CAppModule _Module;
