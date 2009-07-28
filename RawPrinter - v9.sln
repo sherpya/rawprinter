@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RawPrinter - v9", "RawPrinter - v9.vcproj", "{340B5541-F8C0-477B-8255-F87AD79270B5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RawPrinter", "RawPrinter - v9.vcproj", "{340B5541-F8C0-477B-8255-F87AD79270B5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

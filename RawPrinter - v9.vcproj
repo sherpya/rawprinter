@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9,00"
-	Name="RawPrinter - v9"
+	Name="RawPrinter"
 	ProjectGUID="{340B5541-F8C0-477B-8255-F87AD79270B5}"
 	TargetFrameworkVersion="131072"
 	>
