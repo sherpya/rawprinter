@@ -92,11 +92,11 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 {
 #define MAX_ITEM_VALUE 100
 
-    wchar_t value[MAX_ITEM_VALUE];
+    TCHAR value[MAX_ITEM_VALUE];
     HTREEITEM selected = m_tree.GetSelectedItem();
-    m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
     if (m_tree.GetParentItem(selected))
     {
+        m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
         MessageBox(value, _T("Selected"), MB_OK);
         return 0;
     }
@@ -105,7 +105,16 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 
 LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	return 0;
+    TCHAR value[MAX_ITEM_VALUE];
+    HTREEITEM selected = m_tree.GetSelectedItem();
+    
+    if (m_tree.GetParentItem(selected))
+    {
+        m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
+        TestPrinter(value);
+        return 0;
+    }
+	return 1;
 }
 
 LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

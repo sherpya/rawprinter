@@ -37,11 +37,12 @@ public:
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
-    static BOOL RawPrint(LPWSTR fileName, LPWSTR printer);
+    static BOOL RawPrint(LPTSTR fileName, LPTSTR printer);
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
 	void CloseDialog(int nVal);
     BOOL EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
+    BOOL TestPrinter(LPTSTR printer);
     HANDLE m_thEnum;
 
 private:

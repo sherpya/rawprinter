@@ -82,7 +82,20 @@ DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
     return 0;
 }
 
-static BOOL RawPrint(LPWSTR fileName, LPWSTR printer)
+BOOL CMainDlg::TestPrinter(LPTSTR printer)
+{
+    HANDLE p;
+    PRINTER_INFO_2 *pInfo;
+    DWORD need;
+    ::OpenPrinter(printer, &p, NULL);
+    ::GetPrinter(p, 2, NULL, 0, &need);
+    pInfo = (PRINTER_INFO_2 *) new BYTE[need];
+    ::GetPrinter(p, 2, (LPBYTE) pInfo, need, &need);
+    delete pInfo;
+    return TRUE;
+}
+
+static BOOL RawPrint(LPTSTR fileName, LPTSTR printer)
 {
     HANDLE p = INVALID_HANDLE_VALUE;
     HANDLE f = INVALID_HANDLE_VALUE;
