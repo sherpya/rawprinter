@@ -102,8 +102,8 @@ static BOOL RawPrint(LPWSTR fileName, LPWSTR printer)
     char *buffer = NULL;
     DWORD err = ERROR_SUCCESS, w, size, r;
 
-    PRINTER_DEFAULTS defaults = { L"RAW", 0, PRINTER_ACCESS_USE };
-    DOC_INFO_1 doc = { fileName, NULL, L"RAW" };
+    PRINTER_DEFAULTS defaults = { _T("RAW"), 0, PRINTER_ACCESS_USE };
+    DOC_INFO_1 doc = { fileName, NULL, _T("RAW") };
 
     if ((f = ::CreateFile(fileName,
         GENERIC_READ, FILE_SHARE_READ,

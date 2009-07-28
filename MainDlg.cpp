@@ -41,7 +41,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     // System Menu
     CMenu sysmenu(GetSystemMenu(FALSE));
     sysmenu.AppendMenu(MF_SEPARATOR);
-    sysmenu.AppendMenu(MF_ENABLED, IDM_ABOUT, L"About");
+    sysmenu.AppendMenu(MF_ENABLED, IDM_ABOUT, _T("About"));
 
     // Tree View
     m_tree = CTreeViewCtrl(GetDlgItem(IDC_TREE));
@@ -52,7 +52,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     m_tree.SetImageList(imageList, TVSIL_NORMAL); 
 
     m_status = CStatusBarCtrl(GetDlgItem(IDC_STATUSBAR));
-    m_status.SetText(0, _T("Scanning Printers"));
+    m_status.SetText(0, _T("Searching for printers"));
     m_eAbort = FALSE;
     DWORD tid;
     m_thEnum = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) CMainDlg::PopulateTreeView, (LPVOID) this, 0, &tid);
@@ -95,7 +95,7 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
     wchar_t value[MAX_ITEM_VALUE];
     HTREEITEM selected = m_tree.GetSelectedItem();
     m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
-    MessageBox(value, L"Selected", MB_OK);
+    MessageBox(value, _T("Selected"), MB_OK);
 	return 0;
 }
 
