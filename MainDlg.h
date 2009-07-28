@@ -46,6 +46,6 @@ public:
     HANDLE m_thEnum;
 
 private:
-    CTreeViewCtrl m_tree;
-    CStatusBarCtrl m_status;
+    WTL::CTreeViewCtrl m_tree;
+    WTL::CStatusBarCtrl m_status;
 };

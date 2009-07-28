@@ -44,14 +44,14 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     sysmenu.AppendMenu(MF_ENABLED, IDM_ABOUT, _T("About"));
 
     // Tree View
-    m_tree = CTreeViewCtrl(GetDlgItem(IDC_TREE));
-    CImageList imageList;
+    m_tree = WTL::CTreeViewCtrl(GetDlgItem(IDC_TREE));
+    WTL::CImageList imageList;
     imageList.Create(16, 16, ILC_COLOR32, 0, 0);
     imageList.AddIcon(LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON_SERVER)));
     imageList.AddIcon(LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON_PRINTER)));
     m_tree.SetImageList(imageList, TVSIL_NORMAL);
 
-    m_status = CStatusBarCtrl(GetDlgItem(IDC_STATUSBAR));
+    m_status = WTL::CStatusBarCtrl(GetDlgItem(IDC_STATUSBAR));
     m_status.SetText(0, _T("Searching for printers"));
     m_eAbort = FALSE;
     DWORD tid;
