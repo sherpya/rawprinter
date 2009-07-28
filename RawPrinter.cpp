@@ -27,7 +27,7 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 
 	int nRet = theLoop.Run();
 
-    dlgMain.m_eAbort = TRUE;
+    dlgMain.m_eAbort.SetValue(TRUE);
     ATLTRACE(_T("Waiting for enum thread"));
     ::WaitForSingleObject(dlgMain.m_thEnum, INFINITE);
 

@@ -4,7 +4,7 @@
 
 #define CALL(func) do { if (!func) { err = GetLastError(); goto end; } } while (0)
 
-BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> &printers)
+BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 {
     DWORD dwResult, dwResultEnum;
     HANDLE hEnum;
@@ -13,7 +13,7 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> 
     LPNETRESOURCE lpnrLocal;
     DWORD i;
 
-    if (m_eAbort)
+    if (m_eAbort.GetValue())
         return FALSE;
 
     dwResult = ::WNetOpenEnum(RESOURCE_GLOBALNET, // all network resources
@@ -41,6 +41,9 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> 
         {
             for (i = 0; i < cEntries; i++)
             {
+                if (!m_eAbort.TryLock())
+                    return FALSE;
+
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                 {
                     WTL::CString message(_T("Scanning "));
@@ -54,13 +57,19 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> 
                             break;
                     }
                     message += lpnrLocal[i].lpRemoteName;
-                    if (!m_eAbort)
-                        m_status.SetText(0, message);
-                    if (!EnumeratePrinters(&lpnrLocal[i], printers) && m_eAbort)
+                    m_status.SetText(0, message);
+                    if (!EnumeratePrinters(&lpnrLocal[i], parent) && m_eAbort.GetValue())
+                    {
+                        m_eAbort.Unlock();
                         return FALSE;
+                    }
                 }
                 else if (lpnrLocal[i].dwType == RESOURCETYPE_PRINT)
-                    printers.Add(WTL::CString(lpnrLocal[i].lpRemoteName));
+                {
+                    m_tree.InsertItem(lpnrLocal[i].lpRemoteName, 1, 1, parent, NULL);
+                    m_tree.Expand(parent);
+                }
+                m_eAbort.Unlock();
             }
         }
         else if (dwResultEnum != ERROR_NO_MORE_ITEMS)
@@ -81,16 +90,11 @@ BOOL CMainDlg::EnumeratePrinters(LPNETRESOURCE lpnr, CSimpleArray<WTL::CString> 
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
-    CSimpleArray<WTL::CString> printers;
-    pThis->EnumeratePrinters(NULL, printers);
+    HTREEITEM network = pThis->m_tree.InsertItem(_T("Network"), 0, 0, NULL, NULL);
+    pThis->EnumeratePrinters(NULL, network);
 
-    if (pThis->m_eAbort)
-        return -1;
-
-    for (int i = 0; i < printers.GetSize(); i++)
-        pThis->m_tree.InsertItem(printers[i], 1, 1, NULL, NULL);
-
-    pThis->m_status.SetText(0, _T("Please select the printer"));
+    if (!pThis->m_eAbort.GetValue())
+        pThis->m_status.SetText(0, _T("Please select the printer"));
     return 0;
 }
 

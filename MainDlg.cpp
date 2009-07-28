@@ -53,7 +53,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
     m_status = WTL::CStatusBarCtrl(GetDlgItem(IDC_STATUSBAR));
     m_status.SetText(0, _T("Searching for printers"));
-    m_eAbort = FALSE;
+    m_eAbort.SetValue(FALSE);
     DWORD tid;
     m_thEnum = CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) CMainDlg::PopulateTreeView, (LPVOID) this, 0, &tid);
 	return TRUE;
@@ -95,8 +95,12 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
     wchar_t value[MAX_ITEM_VALUE];
     HTREEITEM selected = m_tree.GetSelectedItem();
     m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
-    MessageBox(value, _T("Selected"), MB_OK);
-	return 0;
+    if (m_tree.GetParentItem(selected))
+    {
+        MessageBox(value, _T("Selected"), MB_OK);
+        return 0;
+    }
+	return 1;
 }
 
 LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
