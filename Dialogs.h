@@ -33,7 +33,7 @@ public:
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
-    static BOOL RawPrint(LPTSTR fileName);
+    static BOOL RawPrint(LPWSTR fileName);
     static WTL::CString GetRawPrinter(void);
     static WTL::CString CMainDlg::GetIniPath(void);
     static BOOL SetRawPrinter(LPTSTR printer);
