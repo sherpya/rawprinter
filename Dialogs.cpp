@@ -69,7 +69,7 @@ LRESULT CMainDlg::OnSysCommand(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, 
     switch (wParam)
     {
         case SC_CLOSE:
-            SendMessage(WM_COMMAND, IDC_BUTTON_CANCEL);
+            SendMessage(WM_COMMAND, IDC_BUTTON_EXIT);
             break;
         case IDM_ABOUT:
             {
@@ -93,7 +93,7 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
     {
         m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
         if (SetRawPrinter(value))
-            CloseDialog(wID);
+            SendMessage(WM_COMMAND, IDC_BUTTON_EXIT);
         else
             MessageBox(_T("Cannot set value in the configuration file"), _T("Error"), MB_OK | MB_ICONERROR);
     }
@@ -114,7 +114,7 @@ LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 	return 0;
 }
 
-LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
     if (::WaitForSingleObject(m_thEnum, 0) != WAIT_OBJECT_0)
         ::TerminateThread(m_thEnum, -1);

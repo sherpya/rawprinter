@@ -18,7 +18,7 @@ public:
         MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
         COMMAND_ID_HANDLER(IDC_BUTTON_OK, OnOK)
 		COMMAND_ID_HANDLER(IDC_BUTTON_TEST, OnTest)
-		COMMAND_ID_HANDLER(IDC_BUTTON_CANCEL, OnCancel)
+		COMMAND_ID_HANDLER(IDC_BUTTON_EXIT, OnExit)
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -31,7 +31,7 @@ public:
 	LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
     static BOOL RawPrint(LPTSTR fileName);
     static WTL::CString GetRawPrinter(void);
