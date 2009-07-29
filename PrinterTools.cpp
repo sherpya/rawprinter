@@ -120,7 +120,7 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 
     CString pinfotext;
     pinfotext.Empty();
-    pinfotext.Format(_T("Printer Name: %s\r\nPort: %s"), pInfo->pDriverName, pInfo->pPortName);
+    pinfotext.Format(_T("Printer Name:\r\n%s\r\nPort:\r\n%s"), pInfo->pDriverName, pInfo->pPortName);
 
     CPInfoDlg pDlg(pinfotext);
     pDlg.DoModal();
