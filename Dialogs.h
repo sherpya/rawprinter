@@ -33,7 +33,10 @@ public:
 	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
-    static BOOL RawPrint(LPTSTR fileName, LPTSTR printer);
+    static BOOL RawPrint(LPTSTR fileName);
+    static WTL::CString GetRawPrinter(void);
+    static WTL::CString CMainDlg::GetIniPath(void);
+    static BOOL SetRawPrinter(LPTSTR printer);
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
 	void CloseDialog(int nVal);

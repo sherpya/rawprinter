@@ -92,24 +92,26 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
     if (m_tree.GetParentItem(selected))
     {
         m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
-        MessageBox(value, _T("Selected"), MB_OK);
-        return 0;
+        if (SetRawPrinter(value))
+            CloseDialog(wID);
+        else
+            MessageBox(_T("Cannot set value in the configuration file"), _T("Error"), MB_OK | MB_ICONERROR);
     }
-	return 1;
+	return 0;
 }
 
 LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-    TCHAR value[MAX_ITEM_VALUE];
+    TCHAR value[MAX_PATH];
     HTREEITEM selected = m_tree.GetSelectedItem();
     
     if (m_tree.GetParentItem(selected))
     {
-        m_tree.GetItemText(selected, value, MAX_ITEM_VALUE - 1);
+        m_tree.GetItemText(selected, value, MAX_PATH - 1);
         TestPrinter(value);
         return 0;
     }
-	return 1;
+	return 0;
 }
 
 LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

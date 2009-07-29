@@ -124,12 +124,19 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
     return TRUE;
 }
 
-static BOOL RawPrint(LPTSTR fileName, LPTSTR printer)
+BOOL CMainDlg::RawPrint(LPTSTR fileName)
 {
     HANDLE p = INVALID_HANDLE_VALUE;
     HANDLE f = INVALID_HANDLE_VALUE;
     char *buffer = NULL;
     DWORD err = ERROR_SUCCESS, w, size, r;
+
+    WTL::CString printer = CMainDlg::GetRawPrinter();
+    if (!printer.GetLength())
+    {
+        ::MessageBox(NULL, _T("No printer configured"), _T("RawPrinter"), MB_OK | MB_ICONERROR);
+        return FALSE;
+    }
 
     PRINTER_DEFAULTS defaults = { _T("RAW"), 0, PRINTER_ACCESS_USE };
     DOC_INFO_1 doc = { fileName, NULL, _T("RAW") };
@@ -145,7 +152,7 @@ static BOOL RawPrint(LPTSTR fileName, LPTSTR printer)
     ::ReadFile(f, buffer, size, &r, NULL);
     ::CloseHandle(f);
 
-    CALL(::OpenPrinter(printer, &p, &defaults));
+    CALL(::OpenPrinter(printer.GetBuffer(0), &p, &defaults));
     CALL(::StartDocPrinter(p, 1, (LPBYTE) &doc));
     CALL(::StartPagePrinter(p));
     CALL(::WritePrinter(p, buffer, size, &w));
@@ -155,5 +162,36 @@ static BOOL RawPrint(LPTSTR fileName, LPTSTR printer)
 end:
     if (buffer) delete buffer;
     ClosePrinter(p);
+    return TRUE;
+}
+
+WTL::CString CMainDlg::GetIniPath(void)
+{
+    TCHAR *ls, exepath[MAX_PATH];
+    if (!::GetModuleFileName(NULL, exepath, MAX_PATH - 1))
+        return _T("");
+
+    if (!(ls = _tcsrchr(exepath, _T('.'))))
+        return _T("");
+
+    ls++; *ls = 0;
+
+    WTL::CString path(exepath);
+    path += _T("ini");
+
+    return path;
+}
+
+WTL::CString CMainDlg::GetRawPrinter(void)
+{
+    TCHAR printer[MAX_PATH] = _T("");
+    ::GetPrivateProfileString(_T("RawPrinter"), _T("printer"), _T(""), printer, MAX_PATH - 1, GetIniPath().GetBuffer(0));
+    return WTL::CString(printer);
+}
+
+BOOL CMainDlg::SetRawPrinter(LPTSTR printer)
+{
+    if (!::WritePrivateProfileString(_T("RawPrinter"), _T("printer"), printer, GetIniPath().GetBuffer(0)))
+        return FALSE;
     return TRUE;
 }
