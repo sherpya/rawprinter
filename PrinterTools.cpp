@@ -7,7 +7,7 @@
     if (!func) \
     { \
         err = GetLastError(); \
-        ::MessageBox(NULL, _T(#msg), _T("Error"), MB_OK | MB_ICONERROR); \
+        ::MessageBox(NULL, AtlGetErrorDescription(::GetLastError()), _T("RawPrinter::")_T(#msg), MB_OK | MB_ICONERROR); \
         goto end; \
     } \
 } while (0)
@@ -155,7 +155,9 @@ BOOL CMainDlg::RawPrint(LPWSTR fileName)
         NULL, OPEN_EXISTING,
             FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
     {
-        ::MessageBox(NULL, _T("CreateFile"), fileName, MB_OK);
+        WTL::CString message;
+        message.Format(_T("Error opening %s: %s"), fileName, AtlGetErrorDescription(::GetLastError()));
+        ::MessageBox(NULL, message, _T("RawPrinter"), MB_OK | MB_ICONERROR);
             goto end;
     }
 
