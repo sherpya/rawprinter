@@ -51,7 +51,7 @@ private:
 class CPInfoDlg : public CDialogImpl<CPInfoDlg>
 {
 public:
-    CPInfoDlg::CPInfoDlg(CString info) : m_info(info) {};
+    CPInfoDlg::CPInfoDlg(PRINTER_INFO_2 *pinfo) : m_pinfo(pinfo) {};
 	enum { IDD = IDD_PRINTER };
 
 	BEGIN_MSG_MAP(CAboutDlg)
@@ -71,9 +71,40 @@ public:
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
     {
         CenterWindow(GetParent());
-        CEdit m_edit(GetDlgItem(IDC_PRINTER_INFO));
+        WTL::CRichEditCtrl m_edit(GetDlgItem(IDC_PRINTER_INFO));
         m_edit.Clear();
-        m_edit.AppendText(m_info);
+        m_edit.SetUndoLimit(0);
+        CHARFORMAT fmt;
+        memset(&fmt, 0, sizeof(fmt));
+        fmt.cbSize = sizeof(fmt);
+        fmt.dwMask = CFM_BOLD;
+
+        fmt.dwEffects = CFE_BOLD;
+        m_edit.SetCharFormat(fmt, SCF_SELECTION);
+        m_edit.AppendText(m_pinfo->pDriverName);
+        m_edit.AppendText(_T("\r\n"));
+
+        fmt.dwEffects = 0;
+        m_edit.SetCharFormat(fmt, SCF_SELECTION);
+        m_edit.AppendText(m_pinfo->pPortName);
+
+        fmt.dwMask = CFM_BOLD | CFM_COLOR;
+        fmt.dwEffects = CFE_BOLD;
+
+        m_edit.AppendText(_T("\r\n\r\n"));
+        if (m_pinfo->Status)
+        {
+            fmt.crTextColor = RGB(240, 0, 0);
+            m_edit.SetCharFormat(fmt, SCF_SELECTION);
+            m_edit.AppendText(_T("Unknown"));
+        }
+        else
+        {
+            fmt.crTextColor = RGB(0, 210, 0);
+            m_edit.SetCharFormat(fmt, SCF_SELECTION);
+            m_edit.AppendText(_T("Ready"));
+        }
+
         return TRUE;
     }
 	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
@@ -83,5 +114,5 @@ public:
     }
 
 private:
-    CString m_info;
+    PRINTER_INFO_2 *m_pinfo;
 };

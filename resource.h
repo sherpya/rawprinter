@@ -10,7 +10,7 @@
 #define IDD_PRINTER                             111
 #define IDB_BITMAP                              113
 #define IDC_PRINTER_IMAGE                       1001
-#define IDC_PRINTER_INFO                        1003
+#define IDC_PRINTER_INFO                        1002
 #define IDC_TREE                                1003
 #define IDC_BUTTON_OK                           1006
 #define IDC_BUTTON_TEST                         1009

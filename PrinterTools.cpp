@@ -118,11 +118,7 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 
     ::GetPrinter(p, 2, (LPBYTE) pInfo, need, &need);
 
-    CString pinfotext;
-    pinfotext.Empty();
-    pinfotext.Format(_T("Printer Name:\r\n%s\r\nPort:\r\n%s"), pInfo->pDriverName, pInfo->pPortName);
-
-    CPInfoDlg pDlg(pinfotext);
+    CPInfoDlg pDlg(pInfo);
     pDlg.DoModal();
     delete pInfo;
     return TRUE;
