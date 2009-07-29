@@ -40,7 +40,7 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
     // Tree View
     m_tree = WTL::CTreeViewCtrl(GetDlgItem(IDC_TREE));
-    WTL::CImageList imageList;
+    WTL::CImageList imageList = m_tree.GetImageList();
     imageList.Create(16, 16, ILC_COLOR32, 0, 0);
     imageList.AddIcon(LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON_SERVER)));
     imageList.AddIcon(LoadIcon(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON_PRINTER)));
