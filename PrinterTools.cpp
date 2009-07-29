@@ -135,9 +135,9 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
 /* FIXME: Unicode only ? */
 BOOL CMainDlg::RawPrint(LPWSTR fileName)
 {
-    HANDLE p = INVALID_HANDLE_VALUE;
-    HANDLE f = INVALID_HANDLE_VALUE;
-    char *buffer = NULL;
+    HANDLE p, f;
+    p = f = INVALID_HANDLE_VALUE;
+    LPBYTE buffer = NULL;
     DWORD err = ERROR_SUCCESS, w, size, r;
 
     WTL::CString printer = CMainDlg::GetRawPrinter();
@@ -162,7 +162,7 @@ BOOL CMainDlg::RawPrint(LPWSTR fileName)
     }
 
     size = ::GetFileSize(f, NULL);
-    buffer = (char *) new char[size];
+    buffer = (LPBYTE) new BYTE[size];
     ::ReadFile(f, buffer, size, &r, NULL);
     ::CloseHandle(f);
 
