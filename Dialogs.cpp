@@ -104,7 +104,7 @@ LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
 {
     TCHAR value[MAX_PATH];
     HTREEITEM selected = m_tree.GetSelectedItem();
-    
+
     if (m_tree.GetParentItem(selected))
     {
         m_tree.GetItemText(selected, value, MAX_PATH - 1);

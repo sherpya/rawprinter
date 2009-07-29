@@ -48,7 +48,7 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lp
 
     // Make richedit control work
     ::LoadLibrary(CRichEditCtrl::GetLibraryName());
-    
+
 	AtlInitCommonControls(ICC_BAR_CLASSES);	// add flags to support other controls
 
 	hRes = _Module.Init(NULL, hInstance);
