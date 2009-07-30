@@ -49,7 +49,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     m_tree.SetImageList(imageList, TVSIL_NORMAL);
 
     m_status = WTL::CStatusBarCtrl(GetDlgItem(IDC_STATUSBAR));
-    m_status.SetText(0, _T("Searching for printers"));
 
     DWORD tid;
     m_thEnum = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) CMainDlg::PopulateTreeView, (LPVOID) this, 0, &tid);
