@@ -6,3 +6,4 @@
 config.*
 Debug
 Release
+Release ANSI
