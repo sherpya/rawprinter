@@ -63,7 +63,8 @@ typedef void (__cdecl *gma)(int *argc, char ***argv, char ***envp, int glob, _st
 	::DefWindowProc(NULL, 0, 0, 0L);
 
     // Make richedit control work
-    ::LoadLibrary(CRichEditCtrl::GetLibraryName());
+	HMODULE hInstRich = ::LoadLibrary(CRichEditCtrl::GetLibraryName());
+	ATLASSERT(hInstRich != NULL);
 
 	AtlInitCommonControls(ICC_BAR_CLASSES);	// add flags to support other controls
 
