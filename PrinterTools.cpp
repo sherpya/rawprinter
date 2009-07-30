@@ -132,8 +132,7 @@ BOOL CMainDlg::TestPrinter(LPTSTR printer)
     return TRUE;
 }
 
-/* FIXME: Unicode only ? */
-BOOL CMainDlg::RawPrint(LPWSTR fileName)
+BOOL CMainDlg::RawPrint(LPTSTR fileName)
 {
     HANDLE p, f;
     p = f = INVALID_HANDLE_VALUE;

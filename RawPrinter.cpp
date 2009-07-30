@@ -31,11 +31,27 @@ int Run(LPTSTR /*lpstrCmdLine*/ = NULL, int nCmdShow = SW_SHOWDEFAULT)
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR lpstrCmdLine, int nCmdShow)
 {
 
-    LPWSTR *Args;
-    int nArgs;
-    Args = CommandLineToArgvW(GetCommandLineW(), &nArgs);
-    if (nArgs > 1)
-        return CMainDlg::RawPrint(Args[1]);
+#ifdef _UNICODE
+    LPWSTR *_argv;
+    int _argc;
+    _argv = CommandLineToArgvW(GetCommandLineW(), &_argc);
+#else
+typedef struct {
+  int newmode;
+} _startupinfo;
+
+typedef void (__cdecl *gma)(int *argc, char ***argv, char ***envp, int glob, _startupinfo *si);
+
+    int _argc = 0;
+    char **_argv = 0;
+    char **dummy_environ;
+    _startupinfo start_info = { 0 };
+    gma getmainargs = (gma) GetProcAddress(LoadLibraryA("msvcrt.dll"), "__getmainargs");
+    getmainargs(&_argc, &_argv, &dummy_environ, 0 /* noglob */, &start_info);
+#endif
+
+    if (_argc > 1)
+        return CMainDlg::RawPrint(_argv[1]);
 
 //	HRESULT hRes = ::CoInitialize(NULL);
 // If you are running on NT 4.0 or higher you can use the following call instead to
