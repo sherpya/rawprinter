@@ -12,7 +12,7 @@
 // Bitmap resources
 //
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDB_BITMAP         BITMAP         "printer.bmp"
+IDB_BITMAP         BITMAP         "res\printer.bmp"
 
 
 
@@ -65,27 +65,47 @@ FONT 8, "Ms Shell Dlg 2"
 // Icon resources
 //
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON           ICON           "RawPrinter.ico"
+IDI_ICON           ICON           "res\RawPrinter.ico"
 
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON_PRINTER   ICON           "printer.ico"
+IDI_ICON_PRINTER   ICON           "res\printer.ico"
 
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON_SERVER    ICON           "server.ico"
-
-
+IDI_ICON_SERVER    ICON           "res\server.ico"
 
 //
 // Version Information resources
 //
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-1 VERSIONINFO
-    FILEVERSION     0,1,0,0
-    PRODUCTVERSION  0,1,0,0
-    FILEOS          VOS__WINDOWS32
-    FILETYPE        VFT_UNKNOWN
-{
-    
-}
+VS_VERSION_INFO VERSIONINFO
+    FILEVERSION 0,1,0,0
+    PRODUCTVERSION 0,1,0,0
+    FILEFLAGSMASK 0x17L
+#ifdef _DEBUG
+    FILEFLAGS 0x1L
+#else
+    FILEFLAGS 0x0L
+#endif
+    FILEOS 0x4L
+    FILETYPE 0x2L
+    FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "00000409"
+        BEGIN
+            VALUE "FileDescription", "RawPrinter"
+            VALUE "FileVersion", "0, 1, 0, 0"
+            VALUE "InternalName", "RawPrinter.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2009 Gianluigi Tiesi"
+            VALUE "OriginalFilename", "RawPrinter.exe"
+            VALUE "ProductName", "RawPrinter"
+            VALUE "ProductVersion", "0, 1, 0, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0, 1033
+    END
+END
