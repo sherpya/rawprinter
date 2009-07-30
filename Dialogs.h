@@ -17,7 +17,7 @@ public:
 		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
         COMMAND_ID_HANDLER(IDC_BUTTON_OK, OnOK)
-		COMMAND_ID_HANDLER(IDC_BUTTON_TEST, OnTest)
+		COMMAND_ID_HANDLER(IDC_BUTTON_INFO, OnInfo)
 		COMMAND_ID_HANDLER(IDC_BUTTON_EXIT, OnExit)
 	END_MSG_MAP()
 
@@ -30,7 +30,7 @@ public:
 	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 
     static BOOL RawPrint(LPTSTR fileName);
@@ -73,6 +73,7 @@ public:
     }
 	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
     {
+        SetWindowText(_(IDS_PRINTER_DETAIL));
         CenterWindow(GetParent());
         WTL::CRichEditCtrl m_edit(GetDlgItem(IDC_PRINTER_INFO));
         m_edit.Clear();
@@ -99,13 +100,13 @@ public:
         {
             fmt.crTextColor = RGB(240, 0, 0);
             m_edit.SetCharFormat(fmt, SCF_SELECTION);
-            m_edit.AppendText(_T("Unknown"));
+            m_edit.AppendText(_(IDS_UNKNOWN));
         }
         else
         {
             fmt.crTextColor = RGB(0, 210, 0);
             m_edit.SetCharFormat(fmt, SCF_SELECTION);
-            m_edit.AppendText(_T("Ready"));
+            m_edit.AppendText(_(IDS_READY));
         }
 
         return TRUE;

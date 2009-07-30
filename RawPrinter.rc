@@ -12,7 +12,7 @@
 // Bitmap resources
 //
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDB_BITMAP         BITMAP         "res\printer.bmp"
+IDB_BITMAP         BITMAP         "res\\printer.bmp"
 
 
 
@@ -41,7 +41,7 @@ FONT 8, "Ms Shell Dlg 2"
 {
     CONTROL         "", IDC_TREE, WC_TREEVIEW, WS_TABSTOP | WS_BORDER | TVS_DISABLEDRAGDROP | TVS_INFOTIP | TVS_FULLROWSELECT, 0, 0, 240, 94, WS_EX_CLIENTEDGE
     PUSHBUTTON      "OK", IDC_BUTTON_OK, 248, 8, 72, 16
-    PUSHBUTTON      "Test", IDC_BUTTON_TEST, 248, 37, 72, 16
+    PUSHBUTTON      "Info", IDC_BUTTON_INFO, 248, 37, 72, 16
     PUSHBUTTON      "Cancel", IDC_BUTTON_EXIT, 248, 66, 72, 16
     CONTROL         "", IDC_STATUSBAR, "msctls_statusbar32", 0x50020000, 0, 94, 322, 12
 }
@@ -62,39 +62,76 @@ FONT 8, "Ms Shell Dlg 2"
 
 
 //
+// String Table resources
+//
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+STRINGTABLE
+{
+    IDS_UNKNOWN                   "Unknown"
+    IDS_READY                     "Ready"
+    IDS_LOCAL                     "Local"
+    IDS_NETWORK                   "Network"
+    IDS_SELECT_PRINTER            "Please select the printer"
+    IDS_NOPRINTER                 "No printer configured"
+    IDS_ERROR_CREATEFILE          "Error opening %s: %s"
+    IDS_SCANNING                  "Scanning"
+    IDS_ERROR_SETVALUE            "Cannot set value in the configuration file"
+    IDS_ERROR                     "Error"
+    IDS_PRINTER_DETAIL            "Printer details"
+    IDS_CANCEL                    "Cancel"
+}
+
+
+
+LANGUAGE LANG_ITALIAN, SUBLANG_ITALIAN
+STRINGTABLE
+{
+    IDS_UNKNOWN                   "Sconosciuto"
+    IDS_READY                     "Pronta"
+    IDS_LOCAL                     "Locali"
+    IDS_NETWORK                   "Rete"
+    IDS_SELECT_PRINTER            "Scegliere la stampante"
+    IDS_NOPRINTER                 "Nessuna stampante configurata"
+    IDS_ERROR_CREATEFILE          "Errore di accesso a %s: %s"
+    IDS_SCANNING                  "Cerco"
+    IDS_ERROR_SETVALUE            "Problemi nella modifica del valore nel file di configurazione"
+    IDS_ERROR                     "Errore"
+    IDS_PRINTER_DETAIL            "Dettagli stampante"
+    IDS_CANCEL                    "Annulla"
+}
+
+
+
+//
 // Icon resources
 //
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON           ICON           "res\RawPrinter.ico"
+IDI_ICON           ICON           "res\\RawPrinter.ico"
 
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON_PRINTER   ICON           "res\printer.ico"
+IDI_ICON_PRINTER   ICON           "res\\printer.ico"
 
 
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-IDI_ICON_SERVER    ICON           "res\server.ico"
+IDI_ICON_SERVER    ICON           "res\\server.ico"
+
+
 
 //
 // Version Information resources
 //
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 VS_VERSION_INFO VERSIONINFO
-    FILEVERSION 0,1,0,0
-    PRODUCTVERSION 0,1,0,0
-    FILEFLAGSMASK 0x17L
-#ifdef _DEBUG
-    FILEFLAGS 0x1L
-#else
-    FILEFLAGS 0x0L
-#endif
-    FILEOS 0x4L
-    FILETYPE 0x2L
-    FILESUBTYPE 0x0L
-BEGIN
+    FILEVERSION     0,1,0,0
+    PRODUCTVERSION  0,1,0,0
+    FILEOS          VOS__WINDOWS32
+    FILETYPE        VFT_DLL
+{
     BLOCK "StringFileInfo"
-    BEGIN
+    {
         BLOCK "00000409"
-        BEGIN
+        {
             VALUE "FileDescription", "RawPrinter"
             VALUE "FileVersion", "0, 1, 0, 0"
             VALUE "InternalName", "RawPrinter.exe"
@@ -102,10 +139,10 @@ BEGIN
             VALUE "OriginalFilename", "RawPrinter.exe"
             VALUE "ProductName", "RawPrinter"
             VALUE "ProductVersion", "0, 1, 0, 0"
-        END
-    END
+        }
+    }
     BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1033
-    END
-END
+    {
+        VALUE "Translation", 0, 1033
+    }
+}

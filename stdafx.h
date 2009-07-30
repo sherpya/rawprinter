@@ -16,6 +16,8 @@
 
 #define IDM_ABOUT   400
 
+#define _(x) WTL::CString(MAKEINTRESOURCE(x))
+
 #include <atlbase.h>
 #include <atlapp.h>
 #include <atlmisc.h>

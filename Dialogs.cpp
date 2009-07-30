@@ -14,6 +14,8 @@ BOOL CMainDlg::OnIdle()
 
 LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
+    // Cancel button localization
+    ::SetWindowText(GetDlgItem(IDC_BUTTON_EXIT), _(IDS_CANCEL));
 	// center the dialog on the screen
 	CenterWindow();
 
@@ -95,12 +97,12 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
         if (SetRawPrinter(value))
             SendMessage(WM_COMMAND, IDC_BUTTON_EXIT);
         else
-            MessageBox(_T("Cannot set value in the configuration file"), _T("Error"), MB_OK | MB_ICONERROR);
+            MessageBox(_(IDS_ERROR_SETVALUE), _(IDS_ERROR), MB_OK | MB_ICONERROR);
     }
 	return 0;
 }
 
-LRESULT CMainDlg::OnTest(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
     TCHAR value[MAX_PATH];
     HTREEITEM selected = m_tree.GetSelectedItem();

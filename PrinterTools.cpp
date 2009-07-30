@@ -62,7 +62,7 @@ BOOL CMainDlg::EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
             {
                 if (lpnrLocal[i].dwUsage & RESOURCEUSAGE_CONTAINER)
                 {
-                    WTL::CString message(_T("Scanning "));
+                    WTL::CString message(_(IDS_SCANNING));
                     switch (lpnrLocal[i].dwDisplayType)
                     {
                         case RESOURCEDISPLAYTYPE_DOMAIN:
@@ -98,13 +98,13 @@ BOOL CMainDlg::EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
 DWORD WINAPI CMainDlg::PopulateTreeView(LPVOID lpParameter)
 {
     CMainDlg *pThis = static_cast<CMainDlg *> (lpParameter);
-    HTREEITEM local = pThis->m_tree.InsertItem(_T("Local"), 0, 0, NULL, NULL);
+    HTREEITEM local = pThis->m_tree.InsertItem(_(IDS_LOCAL), 0, 0, NULL, NULL);
     pThis->EnumerateLocalPrinters(local);
 
-    HTREEITEM network = pThis->m_tree.InsertItem(_T("Network"), 0, 0, NULL, NULL);
+    HTREEITEM network = pThis->m_tree.InsertItem(_(IDS_NETWORK), 0, 0, NULL, NULL);
     pThis->EnumerateNetworkPrinters(NULL, network);
 
-    pThis->m_status.SetText(0, _T("Please select the printer"));
+    pThis->m_status.SetText(0, WTL::CString(_(IDS_SELECT_PRINTER)));
     return 0;
 }
 
@@ -142,7 +142,7 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
     WTL::CString printer = CMainDlg::GetRawPrinter();
     if (!printer.GetLength())
     {
-        ::MessageBox(NULL, _T("No printer configured"), _T("RawPrinter"), MB_OK | MB_ICONERROR);
+        ::MessageBox(NULL, _(IDS_NOPRINTER), _T("RawPrinter"), MB_OK | MB_ICONERROR);
         return FALSE;
     }
 
@@ -155,7 +155,7 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
             FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
     {
         WTL::CString message;
-        message.Format(_T("Error opening %s: %s"), fileName, AtlGetErrorDescription(::GetLastError()));
+        message.Format(_(IDS_ERROR_CREATEFILE), fileName, AtlGetErrorDescription(::GetLastError()));
         ::MessageBox(NULL, message, _T("RawPrinter"), MB_OK | MB_ICONERROR);
             goto end;
     }
