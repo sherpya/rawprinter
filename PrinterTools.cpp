@@ -66,10 +66,10 @@ BOOL CMainDlg::EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent)
                     switch (lpnrLocal[i].dwDisplayType)
                     {
                         case RESOURCEDISPLAYTYPE_DOMAIN:
-                            message += _T("Domain / Group ");
+                            message += _T(" Domain / Group ");
                             break;
                         case RESOURCEDISPLAYTYPE_SERVER:
-                            message += _T("Server ");
+                            message += _T(" Server ");
                             break;
                     }
                     message += lpnrLocal[i].lpRemoteName;
