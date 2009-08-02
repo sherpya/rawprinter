@@ -194,15 +194,15 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm"
 			>
 			<File
-				RelativePath=".\Dialogs.cpp"
+				RelativePath=".\dialogs.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\PrinterTools.cpp"
+				RelativePath=".\printertools.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\RawPrinter.cpp"
+				RelativePath=".\rawprinter.cpp"
 				>
 			</File>
 			<File
@@ -231,7 +231,7 @@
 			Filter="h;hpp;hxx;hm;inl;inc"
 			>
 			<File
-				RelativePath=".\Dialogs.h"
+				RelativePath=".\dialogs.h"
 				>
 			</File>
 			<File
