@@ -9,9 +9,9 @@
 #define _CRT_NON_CONFORMING_SWPRINTFS
 
 // Change these values to use different versions
-#define WINVER		0x0500
+#define WINVER		    0x0500
 #define _WIN32_WINNT	0x0501
-#define _WIN32_IE	0x0501
+#define _WIN32_IE	    0x0600
 #define _RICHEDIT_VER	0x0200
 
 #define IDM_ABOUT   400
@@ -26,6 +26,7 @@
 #include <atlctrls.h>
 
 #include <lm.h>
+#include <shellapi.h>
 
 extern CAppModule _Module;
 

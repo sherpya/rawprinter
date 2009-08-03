@@ -79,6 +79,8 @@ STRINGTABLE
     IDS_ERROR                     "Error"
     IDS_PRINTER_DETAIL            "Printer details"
     IDS_CANCEL                    "Cancel"
+    IDS_PRINTING                  "Printing %s on %s"
+    IDS_PRINT_DONE                "Done"
 }
 
 
@@ -98,6 +100,8 @@ STRINGTABLE
     IDS_ERROR                     "Errore"
     IDS_PRINTER_DETAIL            "Dettagli stampante"
     IDS_CANCEL                    "Annulla"
+    IDS_PRINTING                  "Stampo %s su %s"
+    IDS_PRINT_DONE                "Fatto"
 }
 
 

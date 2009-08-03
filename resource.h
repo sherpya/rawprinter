@@ -28,3 +28,5 @@
 #define IDS_ERROR                               40009
 #define IDS_PRINTER_DETAIL                      40010
 #define IDS_CANCEL                              40011
+#define IDS_PRINTING                            40012
+#define IDS_PRINT_DONE                          40013

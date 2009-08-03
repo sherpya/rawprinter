@@ -239,6 +239,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\rptray.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.h"
 				>
 			</File>

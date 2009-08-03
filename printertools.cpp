@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "resource.h"
 #include "Dialogs.h"
+#include "rptray.h"
 
 #define CALL(func, msg) do \
 { \
@@ -138,6 +139,8 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
     p = f = INVALID_HANDLE_VALUE;
     LPBYTE buffer = NULL;
     DWORD err = ERROR_SUCCESS, w, size, r;
+    WTL::CString ballon, message;
+    CRPTray rwtray;
 
     WTL::CString printer = CMainDlg::GetRawPrinter();
     if (!printer.GetLength())
@@ -154,7 +157,6 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
         NULL, OPEN_EXISTING,
             FILE_ATTRIBUTE_NORMAL, NULL)) == INVALID_HANDLE_VALUE)
     {
-        WTL::CString message;
         message.Format(_(IDS_ERROR_CREATEFILE), fileName, AtlGetErrorDescription(::GetLastError()));
         ::MessageBox(NULL, message, _T("RawPrinter"), MB_OK | MB_ICONERROR);
             goto end;
@@ -164,6 +166,9 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
     buffer = (LPBYTE) new BYTE[size];
     ::ReadFile(f, buffer, size, &r, NULL);
     ::CloseHandle(f);
+    
+    ballon.Format(_(IDS_PRINTING), fileName, printer);
+    rwtray.Ballon(ballon, 3000);
 
     CALL(::OpenPrinter(printer.GetBuffer(0), &p, &defaults), OpenPrinter);
     CALL(::StartDocPrinter(p, 1, (LPBYTE) &doc), StartDocPrinter);
