@@ -166,8 +166,9 @@ BOOL CMainDlg::RawPrint(LPTSTR fileName)
     buffer = (LPBYTE) new BYTE[size];
     ::ReadFile(f, buffer, size, &r, NULL);
     ::CloseHandle(f);
-    
-    ballon.Format(_(IDS_PRINTING), fileName, printer);
+
+    LPTSTR fn = _tcsrchr(fileName, _T('\\'));
+    ballon.Format(_(IDS_PRINTING), fn ? fn + 1: fileName, printer);
     rwtray.Ballon(ballon, 3000);
 
     CALL(::OpenPrinter(printer.GetBuffer(0), &p, &defaults), OpenPrinter);
