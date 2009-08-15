@@ -57,7 +57,7 @@ public:
     CPInfoDlg::CPInfoDlg(PRINTER_INFO_2 *pinfo) : m_pinfo(pinfo) {};
 	enum { IDD = IDD_PRINTER };
 
-	BEGIN_MSG_MAP(CAboutDlg)
+	BEGIN_MSG_MAP(CPInfoDlg)
 		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
         MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
 		COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
