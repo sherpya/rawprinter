@@ -19,6 +19,7 @@ public:
         COMMAND_ID_HANDLER(IDC_BUTTON_OK, OnOK)
 		COMMAND_ID_HANDLER(IDC_BUTTON_INFO, OnInfo)
 		COMMAND_ID_HANDLER(IDC_BUTTON_EXIT, OnExit)
+        NOTIFY_HANDLER(IDC_TREE, NM_DBLCLK, OnDoubleClickTree)
 	END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
@@ -32,6 +33,7 @@ public:
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+    LRESULT OnDoubleClickTree(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
 
     static BOOL RawPrint(LPTSTR fileName);
     static WTL::CString GetRawPrinter(void);

@@ -128,3 +128,10 @@ void CMainDlg::CloseDialog(int nVal)
 	DestroyWindow();
 	::PostQuitMessage(nVal);
 }
+
+LRESULT CMainDlg::OnDoubleClickTree(int idCtrl, LPNMHDR /*pnmh*/, BOOL& bHandled)
+{
+    ATLASSERT(idCtrl == IDC_TREE);
+    SendMessage(WM_COMMAND, IDC_BUTTON_INFO);
+    return TRUE;
+}
