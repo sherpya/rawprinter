@@ -20,38 +20,38 @@
 #pragma once
 
 class CMainDlg : public CDialogImpl<CMainDlg>, public CUpdateUI<CMainDlg>,
-		public CMessageFilter, public CIdleHandler
+    public CMessageFilter, public CIdleHandler
 {
 public:
-	enum { IDD = IDD_DIALOG };
+    enum { IDD = IDD_DIALOG };
 
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	virtual BOOL OnIdle();
+    virtual BOOL PreTranslateMessage(MSG* pMsg);
+    virtual BOOL OnIdle();
 
-	BEGIN_UPDATE_UI_MAP(CMainDlg)
-	END_UPDATE_UI_MAP()
+    BEGIN_UPDATE_UI_MAP(CMainDlg)
+    END_UPDATE_UI_MAP()
 
-	BEGIN_MSG_MAP(CMainDlg)
-		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
-		MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
+    BEGIN_MSG_MAP(CMainDlg)
+        MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+        MESSAGE_HANDLER(WM_DESTROY, OnDestroy)
         MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
         COMMAND_ID_HANDLER(IDC_BUTTON_OK, OnOK)
-		COMMAND_ID_HANDLER(IDC_BUTTON_INFO, OnInfo)
-		COMMAND_ID_HANDLER(IDC_BUTTON_EXIT, OnExit)
+        COMMAND_ID_HANDLER(IDC_BUTTON_INFO, OnInfo)
+        COMMAND_ID_HANDLER(IDC_BUTTON_EXIT, OnExit)
         NOTIFY_HANDLER(IDC_TREE, NM_DBLCLK, OnDoubleClickTree)
-	END_MSG_MAP()
+    END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
-//	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
-//	LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
-//	LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
+//    LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+//    LRESULT CommandHandler(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+//    LRESULT NotifyHandler(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/)
 
-	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-	LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-	LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
-	LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+    LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+    LRESULT OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+    LRESULT OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
     LRESULT OnDoubleClickTree(int /*idCtrl*/, LPNMHDR /*pnmh*/, BOOL& /*bHandled*/);
 
     static BOOL RawPrint(LPTSTR fileName);
@@ -60,7 +60,7 @@ public:
     static BOOL SetRawPrinter(LPTSTR printer);
     static DWORD WINAPI PopulateTreeView(LPVOID lpParameter);
 
-	void CloseDialog(int nVal);
+    void CloseDialog(int nVal);
     BOOL EnumerateLocalPrinters(HTREEITEM parent);
     BOOL EnumerateNetworkPrinters(LPNETRESOURCE lpnr, HTREEITEM parent);
     BOOL TestPrinter(LPTSTR printer);
@@ -76,13 +76,13 @@ class CPInfoDlg : public CDialogImpl<CPInfoDlg>
 {
 public:
     CPInfoDlg::CPInfoDlg(PRINTER_INFO_2 *pinfo) : m_pinfo(pinfo) {};
-	enum { IDD = IDD_PRINTER };
+    enum { IDD = IDD_PRINTER };
 
-	BEGIN_MSG_MAP(CPInfoDlg)
-		MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
+    BEGIN_MSG_MAP(CPInfoDlg)
+        MESSAGE_HANDLER(WM_INITDIALOG, OnInitDialog)
         MESSAGE_HANDLER(WM_SYSCOMMAND, OnSysCommand)
-		COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
-	END_MSG_MAP()
+        COMMAND_ID_HANDLER(IDOK, OnCloseCmd)
+    END_MSG_MAP()
 
     LRESULT OnSysCommand(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& bHandled)
     {
@@ -92,7 +92,7 @@ public:
             bHandled = FALSE;
         return TRUE;
     }
-	LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+    LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
     {
         SetWindowText(_(IDS_PRINTER_DETAIL));
         CenterWindow(GetParent());
@@ -132,7 +132,7 @@ public:
 
         return TRUE;
     }
-	LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+    LRESULT OnCloseCmd(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
     {
         EndDialog(wID);
         return TRUE;

@@ -29,7 +29,7 @@ public:
         memset(&m_nid, 0, sizeof(m_nid));
         m_nid.cbSize        = sizeof(NOTIFYICONDATA);
         m_nid.uVersion      = NOTIFYICON_VERSION;
-	    m_nid.hIcon         = (HICON) ::LoadImage(_Module.GetResourceInstance(),
+        m_nid.hIcon         = (HICON) ::LoadImage(_Module.GetResourceInstance(),
             MAKEINTRESOURCE(IDI_ICON_PRINTER), IMAGE_ICON,
             ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
         m_nid.hWnd          = m_hWnd;

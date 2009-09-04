@@ -23,36 +23,36 @@
 
 BOOL CMainDlg::PreTranslateMessage(MSG* pMsg)
 {
-	return CWindow::IsDialogMessage(pMsg);
+    return CWindow::IsDialogMessage(pMsg);
 }
 
 BOOL CMainDlg::OnIdle()
 {
-	return FALSE;
+    return FALSE;
 }
 
 LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
     // Cancel button localization
     ::SetWindowText(GetDlgItem(IDC_BUTTON_EXIT), _(IDS_CANCEL));
-	// center the dialog on the screen
-	CenterWindow();
+    // center the dialog on the screen
+    CenterWindow();
 
-	// set icons
-	HICON hIcon = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON),
-		IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
-	SetIcon(hIcon, TRUE);
-	HICON hIconSmall = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON),
-		IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
-	SetIcon(hIconSmall, FALSE);
+    // set icons
+    HICON hIcon = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON),
+        IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
+    SetIcon(hIcon, TRUE);
+    HICON hIconSmall = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDI_ICON),
+        IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
+    SetIcon(hIconSmall, FALSE);
 
-	// register object for message filtering and idle updates
-	CMessageLoop* pLoop = _Module.GetMessageLoop();
-	ATLASSERT(pLoop != NULL);
-	pLoop->AddMessageFilter(this);
-	pLoop->AddIdleHandler(this);
+    // register object for message filtering and idle updates
+    CMessageLoop* pLoop = _Module.GetMessageLoop();
+    ATLASSERT(pLoop != NULL);
+    pLoop->AddMessageFilter(this);
+    pLoop->AddIdleHandler(this);
 
-	UIAddChildWindowContainer(m_hWnd);
+    UIAddChildWindowContainer(m_hWnd);
 
     // System Menu
     CMenu sysmenu(GetSystemMenu(FALSE));
@@ -71,17 +71,17 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
     DWORD tid;
     m_thEnum = ::CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE) CMainDlg::PopulateTreeView, (LPVOID) this, 0, &tid);
-	return TRUE;
+    return TRUE;
 }
 
 LRESULT CMainDlg::OnDestroy(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
 {
-	// unregister message filtering and idle updates
-	CMessageLoop* pLoop = _Module.GetMessageLoop();
-	ATLASSERT(pLoop != NULL);
-	pLoop->RemoveMessageFilter(this);
-	pLoop->RemoveIdleHandler(this);
-	return 0;
+    // unregister message filtering and idle updates
+    CMessageLoop* pLoop = _Module.GetMessageLoop();
+    ATLASSERT(pLoop != NULL);
+    pLoop->RemoveMessageFilter(this);
+    pLoop->RemoveIdleHandler(this);
+    return 0;
 }
 
 LRESULT CMainDlg::OnSysCommand(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& bHandled)
@@ -117,7 +117,7 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
         else
             MessageBox(_(IDS_ERROR_SETVALUE), _(IDS_ERROR), MB_OK | MB_ICONERROR);
     }
-	return 0;
+    return 0;
 }
 
 LRESULT CMainDlg::OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
@@ -131,21 +131,21 @@ LRESULT CMainDlg::OnInfo(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL&
         TestPrinter(value);
         return 0;
     }
-	return 0;
+    return 0;
 }
 
 LRESULT CMainDlg::OnExit(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
     if (::WaitForSingleObject(m_thEnum, 0) != WAIT_OBJECT_0)
         ::TerminateThread(m_thEnum, -1);
-	CloseDialog(wID);
-	return 0;
+    CloseDialog(wID);
+    return 0;
 }
 
 void CMainDlg::CloseDialog(int nVal)
 {
-	DestroyWindow();
-	::PostQuitMessage(nVal);
+    DestroyWindow();
+    ::PostQuitMessage(nVal);
 }
 
 LRESULT CMainDlg::OnDoubleClickTree(int idCtrl, LPNMHDR /*pnmh*/, BOOL& bHandled)
