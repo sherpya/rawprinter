@@ -48,7 +48,7 @@ public:
 
         if (osv.dwMajorVersion >= 5)
             m_nid.dwInfoFlags = NIIF_USER;
-        
+
     }
     void AddIcon(void)
     {
