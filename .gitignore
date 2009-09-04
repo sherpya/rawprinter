@@ -2,6 +2,7 @@
 *.ncb
 *.suo
 *.idc
+*.aps
 *.vcproj.*.user
 config.*
 Debug
